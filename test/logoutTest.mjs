@@ -2,7 +2,7 @@ import { By, Key } from "selenium-webdriver";
 import { expect } from "chai";
 import { closeDriver, getDriver } from "../utils/webDriverSetup.mjs";
 
-describe("Logout Tests", () => {
+describe("Logout", () => {
   let driver;
 
   before(async () => {
@@ -18,7 +18,7 @@ describe("Logout Tests", () => {
   });
   after(async () => closeDriver());
 
-  it("Logs out successfully", async function () {
+  it("logs out successfully", async function () {
     await (
       await driver.findElement(By.xpath('//*[@id="menu-toggle"]'))
     ).click();

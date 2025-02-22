@@ -2,7 +2,7 @@ import { By, Key } from "selenium-webdriver";
 import { expect } from "chai";
 import { closeDriver, getDriver } from "../utils/webDriverSetup.mjs";
 
-describe("Login Tests", () => {
+describe("Login Page", () => {
   let driver;
 
   before(async () => {
@@ -12,7 +12,7 @@ describe("Login Tests", () => {
 
   after(async () => await closeDriver());
 
-  it("Login page is opened after pressing Make Appointment", async function () {
+  it("is opened after pressing Make Appointment", async function () {
     await (await driver.findElement(By.id("btn-make-appointment"))).click();
 
     expect(await driver.getCurrentUrl()).to.equal(
@@ -20,7 +20,7 @@ describe("Login Tests", () => {
     );
   });
 
-  it("Displays an error message with invalid credentials", async function () {
+  it("displays an error message with invalid credentials", async function () {
     const loginField = await driver.findElement(
       By.xpath('//*[@id="txt-username"]')
     );
@@ -45,7 +45,7 @@ describe("Login Tests", () => {
     );
   });
 
-  it("Logs in successfully with valid credentials", async function () {
+  it("logs in successfully with valid credentials", async function () {
     const loginField = await driver.findElement(
       By.xpath('//*[@id="txt-username"]')
     );

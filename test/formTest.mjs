@@ -2,7 +2,7 @@ import { By, Key, until } from "selenium-webdriver";
 import { closeDriver, getDriver } from "../utils/webDriverSetup.mjs";
 import { expect } from "chai";
 
-describe("Form tests", () => {
+describe("Appointment Form", () => {
   let driver;
 
   before(async () => {
@@ -22,7 +22,7 @@ describe("Form tests", () => {
 
   after(async () => closeDriver());
 
-  it("Form is displayed", async () => {
+  it("is displayed", async () => {
     const formHeader = await (
       await driver.findElement(
         By.xpath('//*[@id="appointment"]/div/div/div/h2')
@@ -73,7 +73,7 @@ describe("Form tests", () => {
     ).to.be.true;
   });
 
-  it("Form can be filled", async () => {
+  it("can be filled", async () => {
     const facilityDropdown = await driver.findElement(
       By.xpath('//*[@id="combo_facility"]')
     );
@@ -98,12 +98,12 @@ describe("Form tests", () => {
     const visitDate = await driver.findElement(
       By.xpath('//*[@id="txt_visit_date"]')
     );
-    await visitDate.sendKeys("03/05/2025");
-    expect(await visitDate.getAttribute("value")).to.equal("03/05/2025");
+    await visitDate.sendKeys("05/03/2120");
+    expect(await visitDate.getAttribute("value")).to.equal("05/03/2120");
 
     await visitDate.click();
 
-    //The date at this location changes depending on the current month, but as "03/05/2025" was previosly selected, this will allways be "09/05/2025"
+    //The date at this location changes depending on the current month, but as "05/03/2120" was previosly selected, this will allways be "08/03/2120"
     const visitDateOption = await driver.wait(
       until.elementLocated(
         By.xpath("/html/body/div/div[1]/table/tbody/tr[2]/td[6]"),
@@ -121,13 +121,13 @@ describe("Form tests", () => {
     expect(await facilityDropdownOption.isSelected()).to.be.true;
     expect(await checkBox.isSelected()).to.be.true;
     expect(await radioButton.isSelected()).to.be.true;
-    expect(await visitDate.getAttribute("value")).to.equal("09/05/2025");
+    expect(await visitDate.getAttribute("value")).to.equal("08/03/2120");
     expect(await commentTextArea.getAttribute("value")).to.equal(
       "Comment text"
     );
   });
 
-  it("Form can be submitted", async () => {
+  it("can be submitted", async () => {
     await (
       await driver.findElement(By.xpath('//*[@id="btn-book-appointment"]'))
     ).click();
@@ -147,7 +147,7 @@ describe("Form tests", () => {
     ).to.contain("Appointment Confirmation");
   });
 
-  it("Form information is saved correctly", async () => {
+  it("saves the information correctly", async () => {
     const facilityField = await driver.findElement(
       By.xpath('//*[@id="summary"]/div/div/div[2]')
     );
@@ -170,11 +170,11 @@ describe("Form tests", () => {
     );
     expect(await readmissionField.getText()).to.contain("Yes");
     expect(await healthcareField.getText()).to.contain("Medicaid");
-    expect(await dateField.getText()).to.contain("09/05/2025");
+    expect(await dateField.getText()).to.contain("08/03/2120");
     expect(await commentField.getText()).to.contain("Comment text");
   });
 
-  it("Form cannot be submitted without a date", async () => {
+  it("cannot be submitted without a date", async () => {
     await (await driver.findElement(By.id("btn-make-appointment"))).click();
     await driver.wait(
       until.urlIs(
@@ -201,7 +201,7 @@ describe("Form tests", () => {
   });
 
   // Supposed to fail
-  it("Form cannot be submitted with a past date", async () => {
+  it("cannot be submitted with a past date", async () => {
     await (await driver.findElement(By.id("btn-make-appointment"))).click();
     await driver.wait(
       until.urlIs(
@@ -229,6 +229,45 @@ describe("Form tests", () => {
 
     expect(await driver.getCurrentUrl()).to.equal(
       "https://katalon-demo-cura.herokuapp.com/index.php#appointment"
+    );
+  });
+
+  it("displays a working Home button in the summary", async () => {
+    await driver.get(
+      "https://katalon-demo-cura.herokuapp.com/index.php#appointment"
+    );
+
+    const visitDate = await driver.findElement(
+      By.xpath('//*[@id="txt_visit_date"]')
+    );
+    await visitDate.sendKeys("08/03/2120");
+
+    await (
+      await driver.findElement(By.xpath('//*[@id="btn-book-appointment"]'))
+    ).click();
+
+    await driver.wait(
+      until.urlIs(
+        "https://katalon-demo-cura.herokuapp.com/appointment.php#summary"
+      ),
+      2000
+    );
+
+    await (
+      await driver.findElement(
+        By.xpath('//*[@id="summary"]/div/div/div[7]/p/a')
+      )
+    ).click();
+
+    try {
+      await driver.wait(
+        until.urlIs("https://katalon-demo-cura.herokuapp.com/"),
+        2000
+      );
+    } catch {}
+
+    expect(await driver.getCurrentUrl()).to.equal(
+      "https://katalon-demo-cura.herokuapp.com/"
     );
   });
 });
