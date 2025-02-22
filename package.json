@@ -1,0 +1,17 @@
+{
+  "name": "appointment-form-test-suit",
+  "version": "1.0.0",
+  "description": "Test suite for an online form for appointment booking",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
+    "selenium-webdriver": "^4.28.1"
+  }
+}
