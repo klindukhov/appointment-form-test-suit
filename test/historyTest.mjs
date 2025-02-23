@@ -114,7 +114,7 @@ describe("History page", () => {
     driver = await getDriver();
     await openAppointmentForm(driver);
   });
-  after(async () => closeDriver());
+  after(async () => await closeDriver());
 
   it("displays created appointments", async () => {
     for (const form of forms) {

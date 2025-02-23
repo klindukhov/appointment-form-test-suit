@@ -20,7 +20,7 @@ describe("Appointment Form", () => {
     );
   });
 
-  after(async () => closeDriver());
+  after(async () => await closeDriver());
 
   it("is displayed", async () => {
     const formHeader = await (

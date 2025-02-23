@@ -7,7 +7,7 @@ module.exports = {
     "test/logoutTest.mjs",
     "test/formTest.mjs",
     "test/historyTest.mjs",
-    // "test/sideBarTest.mjs",
+    "test/sideBarTest.mjs",
     // "test/scrollToTopTest.mjs"
   ],
 };

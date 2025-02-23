@@ -16,7 +16,7 @@ describe("Logout", () => {
       await driver.findElement(By.xpath('//*[@id="txt-password"]'))
     ).sendKeys("ThisIsNotAPassword", Key.RETURN);
   });
-  after(async () => closeDriver());
+  after(async () => await closeDriver());
 
   it("logs out successfully", async function () {
     await (
