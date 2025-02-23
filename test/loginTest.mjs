@@ -1,4 +1,4 @@
-import { By, Key } from "selenium-webdriver";
+import { By, Key, until } from "selenium-webdriver";
 import { expect } from "chai";
 import { closeDriver, getDriver } from "../utils/webDriverSetup.mjs";
 
@@ -55,6 +55,13 @@ describe("Login Page", () => {
       By.xpath('//*[@id="txt-password"]')
     );
     await passwordField.sendKeys("ThisIsNotAPassword", Key.RETURN);
+
+    try {
+      await driver.wait(
+        until.urlIs("https://katalon-demo-cura.herokuapp.com/#appointment"),
+        2000
+      );
+    } catch {}
 
     expect(await driver.getCurrentUrl()).to.equal(
       "https://katalon-demo-cura.herokuapp.com/#appointment"
