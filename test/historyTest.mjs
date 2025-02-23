@@ -44,7 +44,8 @@ describe("History page", () => {
         await driver.findElement(By.xpath('//*[@id="txt-password"]'))
       ).sendKeys("ThisIsNotAPassword", Key.RETURN);
       await driver.wait(
-        until.urlIs("https://katalon-demo-cura.herokuapp.com/#appointment")
+        until.urlIs("https://katalon-demo-cura.herokuapp.com/#appointment"),
+        2000
       );
     }
   };
@@ -104,7 +105,8 @@ describe("History page", () => {
     await driver.wait(
       until.urlIs(
         "https://katalon-demo-cura.herokuapp.com/appointment.php#summary"
-      )
+      ),
+      2000
     );
   };
 
@@ -113,6 +115,7 @@ describe("History page", () => {
     await openAppointmentForm(driver);
   });
   after(async () => closeDriver());
+
   it("displays created appointments", async () => {
     for (const form of forms) {
       await openAppointmentForm(driver);
@@ -124,13 +127,14 @@ describe("History page", () => {
     );
 
     for (const form of forms) {
-      expect(
-        await (
-          await driver.findElement(By.xpath('//*[@id="history"]'))
-        ).getText()
-      ).to.contain(form.date);
+      const historyComponent = await driver.findElement(
+        By.xpath('//*[@id="history"]')
+      );
+      expect(await historyComponent.getText()).to.contain(form.date);
+      expect(await historyComponent.isDisplayed()).to.be.true;
     }
   });
+
   it("displays the appointment information correctly", async () => {
     const appointmentEntries = await driver.findElements(
       By.className("col-sm-offset-2 col-sm-8")
@@ -140,36 +144,41 @@ describe("History page", () => {
       const appointmentDate = await (
         await appointment.findElement(By.className("panel-heading"))
       ).getText();
-      const facility = await (
-        await appointment.findElement(By.id("facility"))
-      ).getText();
-      const readmission = await (
-        await appointment.findElement(By.id("hospital_readmission"))
-      ).getText();
-      const healthcare = await (
-        await appointment.findElement(By.id("program"))
-      ).getText();
-      let comment = "";
-      try {
-        comment = await (
-          await appointment.findElement(By.id("comment"))
-        ).getText();
-      } catch {}
+      const facility = await appointment.findElement(By.id("facility"));
+      const readmission = await appointment.findElement(
+        By.id("hospital_readmission")
+      );
+      const healthcare = await appointment.findElement(By.id("program"));
+      const comment = await appointment.findElement(By.id("comment"));
+
       for (const form of forms) {
         if (appointmentDate.includes(form.date)) {
-          expect(facility).to.equal(form.facility);
-          expect(readmission).to.equal(form.readmission);
-          expect(healthcare).to.equal(form.healthcare);
-          expect(comment).to.equal(form.comment);
+          expect(await facility.getText()).to.equal(form.facility);
+          expect(await facility.isDisplayed()).to.be.true;
+          expect(await readmission.getText()).to.equal(form.readmission);
+          expect(await readmission.isDisplayed()).to.be.true;
+          expect(await healthcare.getText()).to.equal(form.healthcare);
+          expect(await healthcare.isDisplayed()).to.be.true;
+          expect(await comment.getText()).to.equal(form.comment);
+          expect(await comment.isDisplayed()).to.equal(form.comment !== "");
         }
       }
     }
   });
 
   it("has a working Home Button", async () => {
-    await (
-      await driver.findElement(By.xpath('//*[@id="history"]/div/div[3]/p/a'))
-    ).click();
+    const homeButton = await driver.findElement(
+      By.xpath('//*[@id="history"]/div/div[3]/p/a')
+    );
+    expect(await homeButton.isDisplayed()).to.be.true;
+
+    await homeButton.click();
+    try {
+      await driver.wait(
+        until.urlIs("https://katalon-demo-cura.herokuapp.com/"),
+        2000
+      );
+    } catch {}
 
     expect(await driver.getCurrentUrl()).to.equal(
       "https://katalon-demo-cura.herokuapp.com/"

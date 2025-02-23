@@ -15,9 +15,29 @@ describe("Login Page", () => {
   it("is opened after pressing Make Appointment", async function () {
     await (await driver.findElement(By.id("btn-make-appointment"))).click();
 
+    await driver.wait(
+      until.urlIs("https://katalon-demo-cura.herokuapp.com/profile.php#login"),
+      2000
+    );
+
     expect(await driver.getCurrentUrl()).to.equal(
       "https://katalon-demo-cura.herokuapp.com/profile.php#login"
     );
+  });
+
+  it("displays interactable Login and Password fields", async () => {
+    const loginField = await driver.findElement(
+      By.xpath('//*[@id="txt-username"]')
+    );
+
+    const passwordField = await driver.findElement(
+      By.xpath('//*[@id="txt-password"]')
+    );
+
+    expect(await loginField.isDisplayed()).to.be.true;
+    expect(await loginField.isEnabled()).to.be.true;
+    expect(await passwordField.isDisplayed()).to.be.true;
+    expect(await passwordField.isEnabled()).to.be.true;
   });
 
   it("displays an error message with invalid credentials", async function () {
@@ -30,6 +50,13 @@ describe("Login Page", () => {
       By.xpath('//*[@id="txt-password"]')
     );
     await passwordField.sendKeys("WrongPassword", Key.RETURN);
+
+    try {
+      await driver.wait(
+        until.urlIs("https://katalon-demo-cura.herokuapp.com/#appointment"),
+        2000
+      );
+    } catch {}
 
     expect(await driver.getCurrentUrl()).to.equal(
       "https://katalon-demo-cura.herokuapp.com/profile.php#login"

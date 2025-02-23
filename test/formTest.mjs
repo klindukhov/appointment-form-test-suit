@@ -40,36 +40,37 @@ describe("Appointment Form", () => {
     expect(formText).to.contain("Book Appointment");
 
     expect(
-      (await driver.findElements(By.xpath('//*[@id="combo_facility"]')))
-        .length > 0
+      await (
+        await driver.findElement(By.xpath('//*[@id="combo_facility"]'))
+      ).isDisplayed()
     ).to.be.true;
     expect(
-      (
-        await driver.findElements(
+      await (
+        await driver.findElement(
           By.xpath('//*[@id="appointment"]/div/div/form/div[2]/div/label')
         )
-      ).length > 0
+      ).isDisplayed()
     ).to.be.true;
     expect(
-      (
-        await driver.findElements(
+      await (
+        await driver.findElement(
           By.xpath('//*[@id="appointment"]/div/div/form/div[3]/div')
         )
-      ).length > 0
+      ).isDisplayed()
     ).to.be.true;
     expect(
-      (
-        await driver.findElements(
+      await (
+        await driver.findElement(
           By.xpath('//*[@id="appointment"]/div/div/form/div[4]/div')
         )
-      ).length > 0
+      ).isDisplayed()
     ).to.be.true;
     expect(
-      (
-        await driver.findElements(
+      await (
+        await driver.findElement(
           By.xpath('//*[@id="appointment"]/div/div/form/div[5]/div')
         )
-      ).length > 0
+      ).isDisplayed()
     ).to.be.true;
   });
 
@@ -179,7 +180,8 @@ describe("Appointment Form", () => {
     await driver.wait(
       until.urlIs(
         "https://katalon-demo-cura.herokuapp.com/index.php#appointment"
-      )
+      ),
+      2000
     );
 
     await (
@@ -206,7 +208,8 @@ describe("Appointment Form", () => {
     await driver.wait(
       until.urlIs(
         "https://katalon-demo-cura.herokuapp.com/index.php#appointment"
-      )
+      ),
+      2000
     );
 
     const visitDate = await driver.findElement(
@@ -253,11 +256,12 @@ describe("Appointment Form", () => {
       2000
     );
 
-    await (
-      await driver.findElement(
-        By.xpath('//*[@id="summary"]/div/div/div[7]/p/a')
-      )
-    ).click();
+    const homeButton = await driver.findElement(
+      By.xpath('//*[@id="summary"]/div/div/div[7]/p/a')
+    );
+    expect(await homeButton.isDisplayed()).to.be.true;
+
+    await homeButton.click();
 
     try {
       await driver.wait(
