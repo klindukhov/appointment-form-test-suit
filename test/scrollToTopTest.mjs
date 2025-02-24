@@ -16,59 +16,59 @@ describe("Scroll to top Button", async () => {
     await driver.executeScript("window.scrollTo(0,0);");
   };
 
-  // describe("For not logged in users", async () => {
-  //   it("appears on all relevant pages after scrolling down", async () => {
-  //     await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
-  //     const toTopButton = await driver.findElement(
-  //       By.xpath('//*[@id="to-top"]')
-  //     );
-  //     await scrollDown(driver);
-  //     await driver.wait(until.elementIsVisible(toTopButton), 2000);
-  //     expect(await toTopButton.isDisplayed()).to.be.true;
-  //   });
-  //   it("is not displayed when the page is not scrolled down", async () => {
-  //     await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
-  //     const toTopButton = await driver.findElement(
-  //       By.xpath('//*[@id="to-top"]')
-  //     );
-  //     expect(await toTopButton.isDisplayed()).to.be.false;
+  describe("For not logged in users", async () => {
+    it("appears on all relevant pages after scrolling down", async () => {
+      await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
+      const toTopButton = await driver.findElement(
+        By.xpath('//*[@id="to-top"]')
+      );
+      await scrollDown(driver);
+      await driver.wait(until.elementIsVisible(toTopButton), 2000);
+      expect(await toTopButton.isDisplayed()).to.be.true;
+    });
+    it("is not displayed when the page is not scrolled down", async () => {
+      await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
+      const toTopButton = await driver.findElement(
+        By.xpath('//*[@id="to-top"]')
+      );
+      expect(await toTopButton.isDisplayed()).to.be.false;
 
-  //     await scrollDown(driver);
-  //     await scrollToTop(driver);
-  //     await driver.wait(until.elementIsNotVisible(toTopButton), 2000);
-  //     expect(await toTopButton.isDisplayed()).to.be.false;
+      await scrollDown(driver);
+      await scrollToTop(driver);
+      await driver.wait(until.elementIsNotVisible(toTopButton), 2000);
+      expect(await toTopButton.isDisplayed()).to.be.false;
 
-  //     await driver.get("https://katalon-demo-cura.herokuapp.com/");
-  //     expect(
-  //       await (
-  //         await driver.findElement(By.xpath('//*[@id="to-top"]'))
-  //       ).isDisplayed()
-  //     ).to.be.false;
-  //   });
-  //   it("disappears after it is pressed", async () => {
-  //     await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
-  //     const toTopButton = await driver.findElement(
-  //       By.xpath('//*[@id="to-top"]')
-  //     );
-  //     await scrollDown(driver);
-  //     await driver.wait(until.elementIsVisible(toTopButton), 2000);
-  //     await toTopButton.click();
-  //     await driver.wait(until.elementIsNotVisible(toTopButton), 2000);
-  //     expect(await toTopButton.isDisplayed()).to.be.false;
-  //   });
-  //   it("scrolls the page to the top", async () => {
-  //     await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
-  //     const toTopButton = await driver.findElement(
-  //       By.xpath('//*[@id="to-top"]')
-  //     );
-  //     await scrollDown(driver);
-  //     await driver.wait(until.elementIsVisible(toTopButton), 2000);
-  //     expect(await toTopButton.isDisplayed()).to.be.true;
-  //     await toTopButton.click();
-  //     await driver.wait(until.elementIsNotVisible(toTopButton));
-  //     expect(await driver.executeScript("return window.scrollY;")).to.equal(0);
-  //   });
-  // });
+      await driver.get("https://katalon-demo-cura.herokuapp.com/");
+      expect(
+        await (
+          await driver.findElement(By.xpath('//*[@id="to-top"]'))
+        ).isDisplayed()
+      ).to.be.false;
+    });
+    it("disappears after it is pressed", async () => {
+      await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
+      const toTopButton = await driver.findElement(
+        By.xpath('//*[@id="to-top"]')
+      );
+      await scrollDown(driver);
+      await driver.wait(until.elementIsVisible(toTopButton), 2000);
+      await toTopButton.click();
+      await driver.wait(until.elementIsNotVisible(toTopButton), 2000);
+      expect(await toTopButton.isDisplayed()).to.be.false;
+    });
+    it("scrolls the page to the top", async () => {
+      await driver.get("https://katalon-demo-cura.herokuapp.com/profile.php");
+      const toTopButton = await driver.findElement(
+        By.xpath('//*[@id="to-top"]')
+      );
+      await scrollDown(driver);
+      await driver.wait(until.elementIsVisible(toTopButton), 2000);
+      expect(await toTopButton.isDisplayed()).to.be.true;
+      await toTopButton.click();
+      await driver.wait(until.elementIsNotVisible(toTopButton));
+      expect(await driver.executeScript("return window.scrollY;")).to.equal(0);
+    });
+  });
 
   describe("For logged in users", async () => {
     before(async () => {
