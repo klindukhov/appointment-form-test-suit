@@ -8,6 +8,6 @@ module.exports = {
     "test/formTest.mjs",
     "test/historyTest.mjs",
     "test/sideBarTest.mjs",
-    // "test/scrollToTopTest.mjs"
+    "test/scrollToTopTest.mjs",
   ],
 };
