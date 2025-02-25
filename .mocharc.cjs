@@ -10,4 +10,5 @@ module.exports = {
     "test/sideBarTest.mjs",
     "test/scrollToTopTest.mjs",
   ],
+  reporter: "mochawesome",
 };
